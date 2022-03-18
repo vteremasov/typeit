@@ -20,27 +20,37 @@ function simpleThrottle(f, timeout) {
 	}
 }
 
+function changeSize(width, height) {
+	console.log(width, height)
+	canvas.style.width = width + 'px';
+	canvas.style.height = height + 'px';
+	const scale = 7;
+	canvas.width = width * scale;
+	canvas.height = height ;
+	ctx.scale(scale, scale);
+}
+
 function draw(ctx, textData, cursorVisible = true) {
-	ctx.fillStyle = "#000000";
+	ctx.fillStyle = "#282828";
 	ctx.fillRect(0, 0, canvas.width, canvas.height);
 	ctx.fillStyle = "#404040"
-	ctx.fillRect(0, 0, canvas.width, 20)
+	ctx.fillRect(0, 0, canvas.width, 21.5)
 	ctx.fillStyle = "#f32b99"
 	ctx.beginPath();
-	ctx.arc(canvas.width - 10, 10, 5, 0, 2 * Math.PI);
+	ctx.arc(canvas.width - 10.5, 10.5, 5.5, 0, 2 * Math.PI);
 	ctx.fill();
 
 	ctx.fillStyle = "#2bf33c"
 	ctx.beginPath();
-	ctx.arc(canvas.width - 30, 10, 5, 0, 2 * Math.PI);
+	ctx.arc(canvas.width - 30.5, 10.5, 5.5, 0, 2 * Math.PI);
 	ctx.fill();
 
 	ctx.fillStyle = "#f3d22b"
 	ctx.beginPath();
-	ctx.arc(canvas.width - 50, 10, 5, 0, 2 * Math.PI);
+	ctx.arc(canvas.width - 50.5, 10.5, 5.5, 0, 2 * Math.PI);
 	ctx.fill();
 
-	ctx.font = '14px monospace';
+	ctx.font = '14px Arial';
 	
 	ctx.fillStyle = '#ffffff';
 	ctx.fillText(textData.text, textData.x, textData.y);
@@ -160,6 +170,7 @@ function stopRecording() {
 
 function renderLoop() {
 	if (textArea.value !== TEXT_TO_RENDER) {
+		// changeSize(ctx.measureText(textArea.value).width + 40, 200);
 		TEXT_TO_RENDER = textArea.value;
 		canvas.width = ctx.measureText(textArea.value).width + 40;
 		i = 0;
@@ -175,7 +186,7 @@ function renderLoop() {
 	draw(ctx, {text, x: 20, y: canvas.height / 2}, cursorVisible)
 	requestAnimationFrame(renderLoop);
 }
-
+// changeSize(ctx.measureText(textArea.value).width + 40, 200);
 renderLoop();
 
 
