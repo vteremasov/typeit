@@ -55,9 +55,18 @@ let i = 0;
 function *writer(text) {
 	let t = text.split('');
 	let direct = true;
+	let countWS = 0;
+	const shouldSkip = (ch) => {
+		if (countWS < 2 && ch === ' ') {
+			countWS++;
+			return true
+		}
+		countWS = 0;
+		return false;
+	}
 	while (true) {
 		if (direct) {
-			i++;
+			if(!shouldSkip(t[i-1])) i++;
 		} else {
 			i--;
 		}
@@ -96,16 +105,6 @@ function startRecording() {
 	});
 	gif.setOption('debug', true);
 	recordGif = true;
-  // const chunks = []; // here we will store our recorded media chunks (Blobs)
-  // const stream = canvas.captureStream(); // grab our canvas MediaStream
-  // rec = new MediaRecorder(stream); // init the recorder
-  // // every time the recorder has new data, we will store it in our array
-  // rec.ondataavailable = e => chunks.push(e.data);
-	// console.log(chunks)
-  // // only when the recorder stops, we construct a complete Blob from all the chunks
-  // rec.onstop = e => exportVid(new ImageData(chunks, canvas.width, canvas.height));
-  //
-  // rec.start();
 }
 renderButton.addEventListener('click', () => render = true);
 
