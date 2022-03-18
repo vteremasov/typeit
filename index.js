@@ -4,7 +4,7 @@ const progress      = document.querySelector('.progress');
 const textArea      = document.getElementById('text');
 const ctx = canvas.getContext('2d');
 
-const TEXT_TO_RENDER = 'Ich bin verheiratet...';
+let TEXT_TO_RENDER = 'Ich bin verheiratet...';
 textArea.value = TEXT_TO_RENDER;
 
 function simpleThrottle(f, timeout) {
@@ -159,6 +159,13 @@ function stopRecording() {
 }
 
 function renderLoop() {
+	if (textArea.value !== TEXT_TO_RENDER) {
+		TEXT_TO_RENDER = textArea.value;
+		canvas.width = ctx.measureText(textArea.value).width + 40;
+		i = 0;
+		text = '';
+		write = writer(textArea.value);
+	}
 	if (recordGif) {
 		const img = ctx.getImageData(0, 0, canvas.width, canvas.height);
 		gif.addFrame(img, {delay: 1.0 / 60 * 2000, dispose: -1,});
