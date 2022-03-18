@@ -57,7 +57,7 @@ function *writer(text) {
 	let direct = true;
 	let countWS = 0;
 	const shouldSkip = (ch) => {
-		if (countWS < 2 && ch === ' ') {
+		if (countWS < 8 && ch === ' ') {
 			countWS++;
 			return true
 		}
@@ -77,17 +77,26 @@ function *writer(text) {
 			} else if (recordGif) {
 				stopRecording();
 			}
-			direct = true
+			direct = true;
 		}
 		if (i === text.length) {
 			direct = false;
+			yield t.slice(0, i).join('');
+			yield t.slice(0, i).join('');
+			yield t.slice(0, i).join('');
+			yield t.slice(0, i).join('');
+			yield t.slice(0, i).join('');
+			yield t.slice(0, i).join('');
+			yield t.slice(0, i).join('');
+			yield t.slice(0, i).join('');
+			yield t.slice(0, i).join('');
 		}
 		yield t.slice(0, i).join('');
 	}
 }
 let write = writer(textArea.value);
 const getText = simpleThrottle(() => write.next().value, 30);
-const getVisible = simpleThrottle((s) => !s, 15);
+const getVisible = simpleThrottle((s) => !s, 80);
 
 let recordGif = false;
 let render = false;
@@ -106,7 +115,11 @@ function startRecording() {
 	gif.setOption('debug', true);
 	recordGif = true;
 }
-renderButton.addEventListener('click', () => render = true);
+renderButton.addEventListener('click', () => {
+	render = true;
+	renderButton.disble = true;
+	renderButton.textContent = 'Recording'
+});
 
 function stopRecording() {
 	recordGif = false;
@@ -133,7 +146,9 @@ function stopRecording() {
 			document.body.removeChild(button);
 			document.body.removeChild(img);
 			document.body.removeChild(a);
-		})
+		});
+
+		renderButton.textContent = 'Render';
 	})
 
 	gif.on('progress', function (p) {
